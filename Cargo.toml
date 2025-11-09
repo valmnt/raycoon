@@ -1,0 +1,28 @@
+[package]
+name = "raycoon"
+version = "0.0.1"
+edition = "2021"
+description = "Minimal 2.5D raycasting engine with optional Macroquad renderer"
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/valmnt/raycoon"
+documentation = "https://github.com/valmnt/raycoon"
+keywords = ["raycasting", "graphics", "engine", "2d"]
+categories = ["graphics", "game-engines", "rendering"]
+
+[lib]
+name = "raycoon"
+path = "src/lib.rs"
+
+[features]
+default = []
+macroquad-renderer = ["macroquad"]
+
+[dependencies]
+glam = "0.30.9"
+macroquad = { version = "0.4.14", optional = true }
+
+[[example]]
+name = "basic"
+path = "examples/basic/main.rs"
+required-features = ["macroquad-renderer"]
