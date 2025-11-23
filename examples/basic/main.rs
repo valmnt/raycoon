@@ -4,15 +4,15 @@ mod map;
 use game::Game;
 use macroquad::{
     color::BLACK,
-    texture::{FilterMode, load_texture},
+    texture::{load_texture, FilterMode},
     time::get_frame_time,
-    window::{Conf, clear_background, next_frame},
+    window::{clear_background, next_frame, Conf},
 };
-use map::{TILE_SIZE, create_map};
+use map::{create_map, TILE_SIZE};
 use raycoon::{
-    Engine, MacroquadRenderer,
     engine::{self, Screen},
-    render::{Renderer, color::RcColor},
+    render::{color::RcColor, Renderer},
+    Engine, MacroquadRenderer,
 };
 use std::f32::consts::PI;
 

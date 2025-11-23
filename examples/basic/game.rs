@@ -1,5 +1,5 @@
-use glam::{Vec2, vec2};
-use macroquad::input::{KeyCode, is_key_down};
+use glam::{vec2, Vec2};
+use macroquad::input::{is_key_down, KeyCode};
 use raycoon::Engine;
 
 pub struct Game {

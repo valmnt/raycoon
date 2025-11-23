@@ -4,11 +4,11 @@ mod wall_column;
 use macroquad::{
     color::WHITE,
     math::vec2,
-    texture::{DrawTextureParams, Texture2D, draw_texture_ex},
+    texture::{draw_texture_ex, DrawTextureParams, Texture2D},
 };
 use sky_ground::draw_sky_and_ground;
-use wall_column::RayColumn;
 use wall_column::build_column_from_hit;
+use wall_column::RayColumn;
 
 use crate::engine::{CastResult, Screen};
 use crate::render::{RcColor, Renderer};
