@@ -37,12 +37,12 @@ git switch -c feature/my-change
 ```
 
 ### 3. Make your changes
-Follow the guidelines below (Rust style, separation rules, testing).
+Follow the guidelines below (Rust style, separation rules ...).
 
 ### 4. Ensure the project builds and runs
 ```bash
-cargo build
-cargo --example basic
+cargo check
+cargo run --example basic --features macroquad-renderer
 ```
 
 ### 5. Open a Pull Request
@@ -59,15 +59,14 @@ Pull requests that include clear explanations are merged much faster.
 - Prefer **safe, idiomatic Rust** (no `unsafe`, avoid unnecessary clones).
 - Keep the API **small and focused**.
 - Avoid over-engineering and unnecessary abstractions.
-- Add tests when relevant (raycasting, collisions, map logic).
 
 ## 🧾 Commit Messages
 
 Use clear, conventional commits:
 
-- refactor(engine): simplify raycasting loop
-- feat(core): add cast_view helper
-- fix(collision): correct per-axis movement
+- refactor: simplify raycasting loop
+- feat: add cast_view helper
+- fix: correct per-axis movement
 - docs: update README
 
 ## 💬 Discussions & Issues
