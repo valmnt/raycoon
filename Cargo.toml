@@ -9,12 +9,7 @@ repository = "https://github.com/valmnt/raycoon"
 documentation = "https://github.com/valmnt/raycoon"
 keywords = ["raycasting", "graphics", "engine", "2d"]
 categories = ["graphics", "game-engines", "rendering"]
-exclude = [
-  "assets/**",
-  "examples/**",
-  "target/**",
-  ".git/**",
-]
+exclude = ["assets/**", "examples/**", "target/**", ".github/**", ".git/**"]
 
 [lib]
 name = "raycoon"
