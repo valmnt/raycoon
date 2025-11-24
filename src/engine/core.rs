@@ -3,7 +3,7 @@ use glam::{vec2, Vec2};
 use super::{CastResult, Map, RayHit, Screen};
 
 pub struct Engine {
-    pub(crate) map: Map,
+    map: Map,
 }
 
 impl Engine {
