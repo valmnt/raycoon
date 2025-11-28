@@ -1,5 +1,6 @@
-use crate::engine::RayHit;
-use macroquad::prelude::*;
+use crate::engine::{project_hit_to_column, ColumnProjection, RayHit};
+use glam::Vec2 as GlamVec2;
+use macroquad::prelude::{vec2, Rect, Vec2};
 
 pub(crate) struct RayColumn {
     pub(crate) pos: Vec2,
@@ -13,29 +14,21 @@ pub(crate) fn build_column_from_hit(
     scale: f32,
     texture_size: Vec2,
 ) -> RayColumn {
-    let mut texture_u = hit.x;
-    if hit.y.abs() > hit.x.abs() {
-        texture_u = hit.y;
+    let proj: ColumnProjection = project_hit_to_column(
+        hit,
+        GlamVec2::new(screen.x, screen.y),
+        scale,
+        GlamVec2::new(texture_size.x, texture_size.y),
+    );
+
+    RayColumn {
+        pos: vec2(proj.screen_pos.x, proj.screen_pos.y),
+        size: vec2(proj.screen_size.x, proj.screen_size.y),
+        src: Rect {
+            x: proj.tex_pos.x,
+            y: proj.tex_pos.y,
+            w: proj.tex_size.x,
+            h: proj.tex_size.y,
+        },
     }
-
-    if texture_u < 0.0 {
-        texture_u += 1.0;
-    }
-
-    let texture_x = texture_u * texture_size.x;
-
-    let column_height = (screen.y * scale) / hit.dist;
-    let column_y = screen.y / 2.0 - column_height / 2.0;
-    let column_x = hit.index as f32;
-
-    let pos = vec2(column_x, column_y);
-    let size = vec2(1.0, column_height);
-    let src = Rect {
-        x: texture_x,
-        y: 0.0,
-        w: 1.0,
-        h: texture_size.y,
-    };
-
-    RayColumn { pos, size, src }
 }

@@ -1,16 +1,16 @@
-mod game;
 mod map;
 
-use game::Game;
+use glam::vec2;
 use macroquad::{
     color::BLACK,
+    input::{is_key_down, KeyCode},
     texture::{load_texture, FilterMode},
     time::get_frame_time,
     window::{clear_background, next_frame, Conf},
 };
 use map::{create_map, TILE_SIZE};
 use raycoon::{
-    engine::{self, Screen},
+    engine::{self, Player, PlayerInput, Screen},
     render::{color::RcColor, Renderer},
     Engine, MacroquadRenderer,
 };
@@ -25,29 +25,34 @@ const SCREEN: engine::Screen = Screen {
 
 #[macroquad::main(conf)]
 async fn main() {
+    let player = Player {
+        pos: vec2(2.0 * TILE_SIZE, 1.0 * TILE_SIZE),
+        angle: 0.0,
+    };
     let map = create_map();
 
     let wall_texture = load_texture("assets/wall.png").await.unwrap();
     wall_texture.set_filter(FilterMode::Nearest);
 
-    let engine = Engine::new(map);
+    let mut engine = Engine::new(player, map);
     let renderer = MacroquadRenderer::new(wall_texture, 20.0);
-    let mut game = Game::new(TILE_SIZE);
 
     loop {
         clear_background(BLACK);
 
-        game.player
-            .handle_key(&engine, get_frame_time(), MOVE_SPEED, ROTATION_SPEED);
-
-        let cast_result = engine.cast_ray(
-            game.player.pos,
-            game.player.angle,
-            PI / 3.0,
-            500.0,
-            0.8,
-            SCREEN,
+        engine.update_with_input(
+            &PlayerInput {
+                turn_left: is_key_down(KeyCode::Left),
+                turn_right: is_key_down(KeyCode::Right),
+                forward: is_key_down(KeyCode::Up),
+                backward: is_key_down(KeyCode::Down),
+            },
+            get_frame_time(),
+            MOVE_SPEED,
+            ROTATION_SPEED,
         );
+
+        let cast_result = engine.cast_ray(PI / 3.0, 500.0, 0.8, SCREEN);
 
         let black = RcColor::rgb(0.0, 0.0, 0.0);
         let darkbrown = RcColor::rgb(0.30, 0.25, 0.18);

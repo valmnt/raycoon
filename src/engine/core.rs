@@ -1,13 +1,16 @@
 use glam::{vec2, Vec2};
 
+use crate::engine::{types::Player, PlayerInput};
+
 use super::{CastResult, Map, RayHit, Screen};
 
 pub struct Engine {
+    player: Player,
     map: Map,
 }
 
 impl Engine {
-    pub fn new(map: Map) -> Self {
+    pub fn new(player: Player, map: Map) -> Self {
         assert!(
             map.tiles.content.len() == map.width * map.height,
             "Invalid tiles length: got {}, expected {} (width * height)",
@@ -15,31 +18,24 @@ impl Engine {
             map.width * map.height,
         );
 
-        Self { map }
+        Self { player, map }
     }
 
-    pub fn cast_ray(
-        &self,
-        pos: Vec2,
-        ang: f32,
-        fov: f32,
-        limit: f32,
-        raystep: f32,
-        screen: Screen,
-    ) -> CastResult {
+    pub fn cast_ray(&self, fov: f32, limit: f32, raystep: f32, screen: Screen) -> CastResult {
         let mut hits = Vec::new();
 
         for ray_i in 0..screen.width {
-            let ray_angle = ang - fov / 2.0 + fov * (ray_i as f32 / screen.width as f32);
+            let ray_angle =
+                self.player.angle - fov / 2.0 + fov * (ray_i as f32 / screen.width as f32);
 
             let mut current_distance = 0.0;
 
             while current_distance < limit {
-                let current_dist_x = pos.x + current_distance * ray_angle.cos();
-                let current_dist_y = pos.y + current_distance * ray_angle.sin();
+                let current_dist_x = self.player.pos.x + current_distance * ray_angle.cos();
+                let current_dist_y = self.player.pos.y + current_distance * ray_angle.sin();
 
                 if self.hit_tile(vec2(current_dist_x, current_dist_y)) {
-                    let angle_diff = ray_angle - ang;
+                    let angle_diff = ray_angle - self.player.angle;
                     let distance = current_distance.max(0.0001);
                     let distance_corrected = distance * angle_diff.cos().abs();
 
@@ -66,17 +62,47 @@ impl Engine {
         CastResult { hits }
     }
 
-    pub fn move_with_collision(&self, pos: &mut Vec2, delta: Vec2) {
-        let next = *pos + delta;
-
-        let x = vec2(next.x, pos.y);
-        if !self.hit_tile(x) {
-            pos.x = next.x;
+    pub fn update_with_input(
+        &mut self,
+        input: &PlayerInput,
+        delta_time: f32,
+        move_speed: f32,
+        rotation_speed: f32,
+    ) {
+        if input.turn_left {
+            self.player.angle -= rotation_speed * delta_time;
+        }
+        if input.turn_right {
+            self.player.angle += rotation_speed * delta_time;
         }
 
-        let y = vec2(pos.x, next.y);
+        let dir = Vec2::new(self.player.angle.cos(), self.player.angle.sin());
+        let mut delta = Vec2::ZERO;
+
+        if input.forward {
+            delta += dir;
+        }
+        if input.backward {
+            delta -= dir;
+        }
+
+        if delta.length_squared() > 0.0 {
+            let delta = delta.normalize() * move_speed * delta_time;
+            self.move_with_collision(delta);
+        }
+    }
+
+    fn move_with_collision(&mut self, delta: Vec2) {
+        let next = self.player.pos + delta;
+
+        let x = vec2(next.x, self.player.pos.y);
+        if !self.hit_tile(x) {
+            self.player.pos.x = next.x;
+        }
+
+        let y = vec2(self.player.pos.x, next.y);
         if !self.hit_tile(y) {
-            pos.y = next.y;
+            self.player.pos.y = next.y;
         }
     }
 
