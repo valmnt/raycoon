@@ -1,0 +1,6 @@
+{
+    "python.analysis.extraPaths": [
+        "./bindings/python",
+        "./bindings"
+    ]
+}

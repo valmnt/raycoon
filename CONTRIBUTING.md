@@ -9,7 +9,7 @@ Please read the following guidelines before submitting changes.
 Raycoon is built around a few core principles:
 
 - **Engine-first**: the core must remain strictly backend-agnostic.  
-- **No rendering or input in the engine**: all frontend logic belongs to external modules (e.g., Macroquad renderer).  
+- **No rendering or input in the engine**: all frontend logic belongs to external modules.  
 - **Readable and hackable code**: clarity is preferred over cleverness.  
 - **Small, focused API**: avoid unnecessary abstractions or overengineering.  
 - **Safe, idiomatic Rust** whenever possible.
@@ -42,7 +42,7 @@ Follow the guidelines below (Rust style, separation rules ...).
 ### 4. Ensure the project builds and runs
 ```bash
 cargo check
-cargo run --example basic --features macroquad-renderer
+cargo run --example basic
 ```
 
 ### 5. Open a Pull Request

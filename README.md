@@ -27,29 +27,32 @@ It focuses on clarity, simplicity, and clean architecture: the core provides pur
 - Tile-based world with configurable blocking tiles  
 - Per-axis collision handling  
 - Strict separation between **engine** and **renderer**  
-- Optional **Macroquad renderer** provided as an example  
+- Simple C-compatible FFI API for easy bindings
 - Lightweight, hackable, and easy to understand
 
+## 🧩 Engine Language Support
+
+Raycoon’s core is written in **Rust**, with an official **Python FFI binding** available.
+
+| Language | Support | Details |
+|---------|---------|---------|
+| ![Rust](https://img.shields.io/badge/Rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white) | ✔️ | Native engine implementation |
+| ![Python](https://img.shields.io/badge/Python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) | ✔️ | Official binding through the C FFI |
+
 ## 📦 Installation
-Add the crate to your project:
+Add the crate to your project :
 
 ```toml
 [dependencies]
 raycoon = "x.x.x"
 ```
 
-The Macroquad renderer is behind a feature flag.
-Enable it only if you need the provided backend:
+## ⚒️ Example
 
-```toml
-[dependencies]
-raycoon = { version = "x.x.x", features = ["macroquad-renderer"] }
-```
-
-Run the bundled example (requires the feature):
+Run the bundled example :
 
 ```bash
-cargo run --example basic --features macroquad-renderer
+cargo run --example basic
 ```
 
 ## 🤝 Contributing

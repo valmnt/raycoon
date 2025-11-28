@@ -4,7 +4,6 @@
 Raycoon is a lightweight **2.5D raycasting engine** written in Rust.  
 Its goal is to provide:
 - a clean, backend-agnostic core (pure engine logic),
-- optional renderers (Macroquad now, others later),
 - an educational, long-term side project for learning Rust and game engine architecture.
 
 The **engine** must stay pure: no rendering, no input, no OS/GPU logic.  
