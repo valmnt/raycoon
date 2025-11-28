@@ -1,6 +1,6 @@
 use glam::{vec2, Vec2};
 
-use crate::engine::{types::Player, PlayerInput};
+use crate::engine::{player::Player, PlayerInput};
 
 use super::{CastResult, Map, RayHit, Screen};
 

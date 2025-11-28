@@ -1,12 +1,21 @@
 use glam::Vec2;
 
-use crate::engine::RayHit;
-
 pub struct ColumnProjection {
     pub screen_pos: Vec2,
     pub screen_size: Vec2,
     pub tex_pos: Vec2,
     pub tex_size: Vec2,
+}
+
+pub struct RayHit {
+    pub x: f32,
+    pub y: f32,
+    pub dist: f32,
+    pub index: usize,
+}
+
+pub struct CastResult {
+    pub hits: Vec<RayHit>,
 }
 
 pub fn project_hit_to_column(
