@@ -1,4 +1,4 @@
-use raycoon::ffi::map;
+use raycoon::ffi::{map, player, RCVec2};
 
 pub const MAP_WIDTH: usize = 10;
 pub const MAP_HEIGHT: usize = 10;
@@ -33,4 +33,16 @@ pub fn build_map_ptr() -> *mut map::RCMap {
     assert!(!map_ptr.is_null(), "map pointer is null");
 
     map_ptr
+}
+
+pub fn build_player_ptr() -> *mut player::RCPlayer {
+    let player_ptr = player::raycoon_player_new(
+        RCVec2 {
+            x: 2.0 * TILE_SIZE,
+            y: TILE_SIZE,
+        },
+        0.0,
+    );
+    assert!(!player_ptr.is_null(), "player pointer is null");
+    player_ptr
 }

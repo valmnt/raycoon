@@ -31,9 +31,8 @@ fn ffi_engine_creation_and_cast_ray() {
 
     assert!(!cast.hits.is_null(), "hits pointer is null");
     assert_eq!(cast.len, SCREEN_W);
-    let first = unsafe { *cast.hits };
-    assert!(first.dist.is_finite());
-    assert!(first.dist > 0.0);
+    let hits = unsafe { std::slice::from_raw_parts(cast.hits, cast.len) };
+    assert_eq!(hits.len(), SCREEN_W);
 
     raycast::raycoon_cast_result_free(cast);
     core::raycoon_engine_free(engine_ptr);

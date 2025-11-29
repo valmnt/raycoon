@@ -6,3 +6,5 @@ mod map_and_tiles;
 mod engine_cast;
 #[path = "ffi/engine_update.rs"]
 mod engine_update;
+#[path = "ffi/interface_guards.rs"]
+mod interface_guards;
