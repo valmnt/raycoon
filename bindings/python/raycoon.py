@@ -72,6 +72,10 @@ _lib.raycoon_player_free.argtypes = [RCPlayer]
 _lib.raycoon_engine_new_from_map.argtypes = [RCPlayer, RCMap]
 _lib.raycoon_engine_new_from_map.restype = RCEngine
 _lib.raycoon_engine_free.argtypes = [RCEngine]
+_lib.raycoon_engine_player_pos.argtypes = [RCEngine]
+_lib.raycoon_engine_player_pos.restype = Vec2
+_lib.raycoon_engine_player_angle.argtypes = [RCEngine]
+_lib.raycoon_engine_player_angle.restype = c_float
 
 _lib.raycoon_engine_update_with_input.argtypes = [
     RCEngine,
@@ -158,3 +162,9 @@ def free_map(map_ptr: RCMap):
 
 def free_tiles(tiles_ptr: RCTiles):
     _lib.raycoon_tiles_free(tiles_ptr)
+
+def engine_player_pos(engine: RCEngine):
+    return _lib.raycoon_engine_player_pos(engine)
+
+def engine_player_angle(engine: RCEngine):
+    return _lib.raycoon_engine_player_angle(engine)

@@ -3,7 +3,7 @@ use std::ptr;
 use crate::engine::{Input, Map, Screen};
 use crate::ffi::player::{RCPlayer, RCPlayerInput};
 use crate::ffi::raycast::{RCCast, RCHit};
-use crate::{engine::Player, ffi::map::RCMap, Engine};
+use crate::{engine::Player, ffi::map::RCMap, ffi::RCVec2, Engine};
 
 #[repr(C)]
 pub struct RCEngine {
@@ -116,4 +116,23 @@ pub extern "C" fn raycoon_engine_cast_ray(
     std::mem::forget(hits);
 
     RCCast { hits: ptr, len }
+}
+
+#[no_mangle]
+pub extern "C" fn raycoon_engine_player_pos(ptr: *const RCEngine) -> RCVec2 {
+    let Some(engine) = (unsafe { ptr.as_ref() }) else {
+        return RCVec2 { x: 0.0, y: 0.0 };
+    };
+
+    let pos = engine.inner.player.pos;
+    RCVec2 { x: pos.x, y: pos.y }
+}
+
+#[no_mangle]
+pub extern "C" fn raycoon_engine_player_angle(ptr: *const RCEngine) -> f32 {
+    let Some(engine) = (unsafe { ptr.as_ref() }) else {
+        return 0.0;
+    };
+
+    engine.inner.player.angle
 }

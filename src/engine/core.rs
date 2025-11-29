@@ -9,7 +9,7 @@ use crate::engine::{
 use super::{Map, Screen};
 
 pub struct Engine {
-    player: Player,
+    pub player: Player,
     map: Map,
 }
 

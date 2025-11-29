@@ -17,6 +17,7 @@ for path in candidate_paths:
         sys.path.append(str(path))
 
 from raycoon import (
+    PlayerInput,
     Screen,
     Vec2,
     cast_ray,
@@ -25,6 +26,9 @@ from raycoon import (
     make_map,
     make_player,
     make_tiles,
+    update_with_input,
+    engine_player_pos,
+    engine_player_angle,
 )
 
 MAP_WIDTH, MAP_HEIGHT, TILE_SIZE = 10, 10, 38.0
@@ -53,6 +57,18 @@ def run_cast() -> None:
     engine = make_engine(player, map_ptr)
     
     hits = cast_ray(engine, FOV, LIMIT, RAYSTEP, SCREEN)
+    
+    pos = engine_player_pos(engine)
+    angle = engine_player_angle(engine)
+
+    player_input = PlayerInput(turn_left=1, turn_right=0, forward=1, backward=0)
+    update_with_input(engine, player_input, delta_time=1.0 / 60.0, move_speed=120.0, rotation_speed=3.0)
+    
+    pos_after = engine_player_pos(engine)
+    angle_after = engine_player_angle(engine)
+
+    assert angle_after < angle
+    assert pos_after.x > pos.x
 
     assert len(hits) == SCREEN.width
     first = hits[0]
