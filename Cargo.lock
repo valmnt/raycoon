@@ -238,7 +238,7 @@ checksum = "5a651516ddc9168ebd67b24afd085a718be02f8858fe406591b013d101ce2f40"
 
 [[package]]
 name = "raycoon"
-version = "0.0.2"
+version = "0.0.3"
 dependencies = [
  "glam 0.30.9",
  "macroquad",
