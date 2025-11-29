@@ -130,7 +130,8 @@ async fn main() {
     };
     let map = create_map();
 
-    let wall_texture = load_texture("assets/wall.png").await.unwrap();
+    let wall_texture_path = format!("{}/assets/wall.png", env!("CARGO_MANIFEST_DIR"));
+    let wall_texture = load_texture(&wall_texture_path).await.unwrap();
     wall_texture.set_filter(FilterMode::Nearest);
 
     let mut engine = Engine::new(player, map);
