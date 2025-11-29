@@ -1,9 +1,8 @@
 use std::ptr;
 
-use crate::engine::{Map, PlayerInput, Screen};
-use crate::ffi::cast::RCCast;
-use crate::ffi::hit::RCHit;
+use crate::engine::{Input, Map, Screen};
 use crate::ffi::player::{RCPlayer, RCPlayerInput};
+use crate::ffi::raycast::{RCCast, RCHit};
 use crate::{engine::Player, ffi::map::RCMap, Engine};
 
 #[repr(C)]
@@ -73,7 +72,7 @@ pub extern "C" fn raycoon_engine_update_with_input(
     rotation_speed: f32,
 ) {
     if let Some(engine) = unsafe { ptr.as_mut() } {
-        let input = PlayerInput {
+        let input = Input {
             turn_left: input.turn_left != 0,
             turn_right: input.turn_right != 0,
             forward: input.forward != 0,
@@ -104,7 +103,7 @@ pub extern "C" fn raycoon_engine_cast_ray(
     let mut hits: Vec<RCHit> = cast
         .hits
         .into_iter()
-        .map(|hit: crate::engine::RayHit| RCHit {
+        .map(|hit: crate::engine::Hit| RCHit {
             x: hit.x,
             y: hit.y,
             dist: hit.dist,

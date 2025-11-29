@@ -1,7 +1,10 @@
-mod cast;
-mod engine;
-mod hit;
+mod core;
 mod map;
 mod player;
-mod tiles;
-mod types;
+mod raycast;
+
+#[repr(C)]
+pub struct RCVec2 {
+    pub x: f32,
+    pub y: f32,
+}

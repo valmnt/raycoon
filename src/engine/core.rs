@@ -1,8 +1,12 @@
 use glam::{vec2, Vec2};
 
-use crate::engine::{player::Player, PlayerInput};
+use crate::engine::{
+    player::Player,
+    raycast::{Hit, Scanline},
+    Input,
+};
 
-use super::{CastResult, Map, RayHit, Screen};
+use super::{Map, Screen};
 
 pub struct Engine {
     player: Player,
@@ -21,7 +25,7 @@ impl Engine {
         Self { player, map }
     }
 
-    pub fn cast_ray(&self, fov: f32, limit: f32, raystep: f32, screen: Screen) -> CastResult {
+    pub fn cast_ray(&self, fov: f32, limit: f32, raystep: f32, screen: Screen) -> Scanline {
         let mut hits = Vec::new();
 
         for ray_i in 0..screen.width {
@@ -45,7 +49,7 @@ impl Engine {
                     let hit_x = tile_x - (tile_x + 0.5).floor();
                     let hit_y = tile_y - (tile_y + 0.5).floor();
 
-                    hits.push(RayHit {
+                    hits.push(Hit {
                         x: hit_x,
                         y: hit_y,
                         dist: distance_corrected,
@@ -59,12 +63,12 @@ impl Engine {
             }
         }
 
-        CastResult { hits }
+        Scanline { hits }
     }
 
     pub fn update_with_input(
         &mut self,
-        input: &PlayerInput,
+        input: &Input,
         delta_time: f32,
         move_speed: f32,
         rotation_speed: f32,

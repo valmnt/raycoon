@@ -8,7 +8,7 @@ pub struct Player {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
-pub struct PlayerInput {
+pub struct Input {
     pub turn_left: bool,
     pub turn_right: bool,
     pub forward: bool,

@@ -9,10 +9,7 @@ use macroquad::{
     window::{clear_background, next_frame, Conf},
 };
 use raycoon::{
-    engine::{
-        self, project_hit_to_column, ColumnProjection, Map, Player, PlayerInput, RayHit, Screen,
-        Tiles,
-    },
+    engine::{self, column_from_hit, Hit, Input, Map, Player, Projection, Screen, Tiles},
     Engine,
 };
 use std::{collections::HashSet, f32::consts::PI};
@@ -63,12 +60,12 @@ impl MacroquadRenderer {
 
     fn build_column_from_hit(
         &self,
-        hit: &RayHit,
+        hit: &Hit,
         screen: Vec2,
         scale: f32,
         texture_size: Vec2,
     ) -> RayColumn {
-        let proj: ColumnProjection = project_hit_to_column(
+        let proj: Projection = column_from_hit(
             hit,
             GlamVec2::new(screen.x, screen.y),
             scale,
@@ -108,7 +105,7 @@ impl MacroquadRenderer {
 
     fn draw_scene(
         &self,
-        cast: &raycoon::engine::CastResult,
+        cast: &raycoon::engine::Scanline,
         screen: Screen,
         sky_color: Color,
         ground_color: Color,
@@ -143,7 +140,7 @@ async fn main() {
         clear_background(BLACK);
 
         engine.update_with_input(
-            &PlayerInput {
+            &Input {
                 turn_left: is_key_down(KeyCode::Left),
                 turn_right: is_key_down(KeyCode::Right),
                 forward: is_key_down(KeyCode::Up),

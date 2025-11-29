@@ -1,6 +1,6 @@
 use glam::Vec2;
 
-use crate::{engine::Player, ffi::types::RCVec2};
+use crate::{engine::Player, ffi::RCVec2};
 
 #[repr(C)]
 pub struct RCPlayer {

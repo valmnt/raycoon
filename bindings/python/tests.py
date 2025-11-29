@@ -51,7 +51,7 @@ def run_cast() -> None:
     tiles = make_tiles(MAP, BLOCKING, TILE_SIZE)
     map_ptr = make_map(tiles, MAP_WIDTH, MAP_HEIGHT)
     engine = make_engine(player, map_ptr)
-
+    
     hits = cast_ray(engine, FOV, LIMIT, RAYSTEP, SCREEN)
 
     assert len(hits) == SCREEN.width

@@ -1,11 +1,13 @@
+mod columns;
 mod core;
 mod map;
 mod player;
-mod projection;
+mod raycast;
 mod screen;
 
+pub use columns::{column_from_hit, Projection};
 pub use core::Engine;
 pub use map::{Map, Tiles};
-pub use player::{Player, PlayerInput};
-pub use projection::{project_hit_to_column, CastResult, ColumnProjection, RayHit};
+pub use player::{Input, Player};
+pub use raycast::{Hit, Scanline};
 pub use screen::Screen;
