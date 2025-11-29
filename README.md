@@ -32,12 +32,12 @@ It focuses on clarity, simplicity, and clean architecture: the core provides pur
 
 ## 🧩 Engine Language Support
 
-Raycoon’s core is written in **Rust**, with an official **Python FFI binding** available.
+Raycoon’s core is written in **Rust**, with an official **FFI binding** available.
 
 | Language | Support | Details |
 |---------|---------|---------|
-| ![Rust](https://img.shields.io/badge/Rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=white) | ✔️ | Native engine implementation |
-| ![Python](https://img.shields.io/badge/Python-3670A0.svg?style=for-the-badge&logo=python&logoColor=ffdd54) | ✔️ | Official binding through the C FFI |
+| ![Rust](https://img.shields.io/badge/Rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=orange) | ✔️ | Native engine implementation |
+| ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) | ⚠️ | FFI-compatible (no official binding) |
 
 ## 📦 Installation
 Add the crate to your project :

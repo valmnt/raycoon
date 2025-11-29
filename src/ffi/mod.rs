@@ -1,7 +1,7 @@
-mod core;
-mod map;
-mod player;
-mod raycast;
+pub mod core;
+pub mod map;
+pub mod player;
+pub mod raycast;
 
 #[repr(C)]
 pub struct RCVec2 {

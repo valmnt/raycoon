@@ -42,6 +42,7 @@ Follow the guidelines below (Rust style, separation rules ...).
 ### 4. Ensure the project builds and runs
 ```bash
 cargo check
+cargo test
 cargo run --example basic
 ```
 
