@@ -9,6 +9,21 @@ pub struct Projection {
     pub tex_size: Vec2,
 }
 
+/// Projects a ray [`Hit`] into the vertical wall column to draw for it.
+///
+/// The wall face coordinate (`hit.x` or `hit.y`, whichever is dominant) is
+/// mapped to a texture column, and the on-screen height is derived from the
+/// corrected hit distance.
+///
+/// # Parameters
+/// - `hit`: the ray hit to project.
+/// - `screen_size`: render target size, in pixels.
+/// - `scale`: wall height scaling factor.
+/// - `texture_size`: wall texture size, in pixels.
+///
+/// # Returns
+/// A [`Projection`] describing where to draw the column on screen and which
+/// texture slice to sample.
 pub fn column_from_hit(hit: &Hit, screen_size: Vec2, scale: f32, texture_size: Vec2) -> Projection {
     let mut texture_u = hit.x;
     if hit.y.abs() > hit.x.abs() {

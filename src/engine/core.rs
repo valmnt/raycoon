@@ -14,6 +14,18 @@ pub struct Engine {
 }
 
 impl Engine {
+    /// Creates a new [`Engine`] owning a `player` and a `map`.
+    ///
+    /// # Parameters
+    /// - `player`: initial player state  (position and orientation).
+    /// - `map`: tile map queried for collisions and raycasts.
+    ///
+    /// # Returns
+    /// A ready-to-use [`Engine`].
+    ///
+    /// # Panics
+    /// Panics if `map.tiles.content.len()` is not equal to
+    /// `map.width * map.height`.
     pub fn new(player: Player, map: Map) -> Self {
         assert!(
             map.tiles.content.len() == map.width * map.height,
@@ -25,6 +37,20 @@ impl Engine {
         Self { player, map }
     }
 
+    /// Casts one ray per screen column and collects the wall hits.
+    ///
+    /// For each column a ray is marched forward in `raystep` increments until
+    /// it reaches a blocking tile or exceeds `limit`. The stored distance is
+    /// corrected against the fish-eye effect.
+    ///
+    /// # Parameters
+    /// - `fov`: horizontal field of view, in radians.
+    /// - `limit`: maximum distance a ray may travel before it is abandoned.
+    /// - `raystep`: distance between two consecutive samples along a ray.
+    /// - `screen`: target screen dimensions; `screen.width` sets the ray count.
+    ///
+    /// # Returns
+    /// A [`Scanline`] holding one [`Hit`] per column that reached a wall.
     pub fn cast_ray(&self, fov: f32, limit: f32, raystep: f32, screen: Screen) -> Scanline {
         let mut hits = Vec::new();
 
@@ -66,6 +92,16 @@ impl Engine {
         Scanline { hits }
     }
 
+    /// Advances the player state by one frame according to `input`.
+    ///
+    /// Rotation is applied first, then forward/backward motion is resolved
+    /// against walls with per-axis collision resolution.
+    ///
+    /// # Parameters
+    /// - `input`: movement and turn keys pressed this frame.
+    /// - `delta_time`: time elapsed since the previous frame, in seconds.
+    /// - `move_speed`: linear speed, in world units per second.
+    /// - `rotation_speed`: angular speed, in radians per second.
     pub fn update_with_input(
         &mut self,
         input: &Input,
@@ -96,6 +132,13 @@ impl Engine {
         }
     }
 
+    /// Moves the player by `delta`, sliding along walls.
+    ///
+    /// Each axis is tested independently, so a wall blocking one axis still
+    /// allows movement on the other.
+    ///
+    /// # Parameters
+    /// - `delta`: desired displacement for this frame, in world units.
     fn move_with_collision(&mut self, delta: Vec2) {
         let next = self.player.pos + delta;
 
@@ -110,6 +153,14 @@ impl Engine {
         }
     }
 
+    /// Converts a world-space position into tile grid coordinates.
+    ///
+    /// # Parameters
+    /// - `pos`: world-space position, in pixels.
+    ///
+    /// # Returns
+    /// `Some((x, y))` tile indices if `pos` lies inside the map bounds,
+    /// otherwise `None`.
     fn pixel_to_tile(&self, pos: Vec2) -> Option<(usize, usize)> {
         if pos.x < 0.0 || pos.y < 0.0 {
             return None;
@@ -123,6 +174,14 @@ impl Engine {
         }
     }
 
+    /// Tests whether a world-space position falls on a blocking tile.
+    ///
+    /// # Parameters
+    /// - `pos`: world-space position, in pixels.
+    ///
+    /// # Returns
+    /// `true` if the position is out of bounds or on a blocking tile,
+    /// `false` otherwise.
     fn hit_tile(&self, pos: Vec2) -> bool {
         self.pixel_to_tile(pos)
             .map(|(x, y)| {

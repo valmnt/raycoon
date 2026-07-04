@@ -20,7 +20,7 @@ Renderers are small adapters living behind feature flags.
   - `snake_case` for files/functions/variables  
   - `CamelCase` for types  
   - `SCREAMING_SNAKE_CASE` for constants
-- Document only what is non-obvious.
+- Only comment functions, not code inside them.
 - Use `glam` inside the engine; convert types at renderer boundary.
 
 ## Commit Structure

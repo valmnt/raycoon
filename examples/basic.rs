@@ -51,6 +51,14 @@ struct MacroquadRenderer {
 }
 
 impl MacroquadRenderer {
+    /// Creates a renderer bound to a wall texture and a height scale.
+    ///
+    /// # Parameters
+    /// - `wall_texture`: texture sampled for every wall column.
+    /// - `scale`: wall height scaling factor passed to [`column_from_hit`].
+    ///
+    /// # Returns
+    /// A ready-to-use [`MacroquadRenderer`].
     fn new(wall_texture: Texture2D, scale: f32) -> Self {
         Self {
             wall_texture,
@@ -58,6 +66,18 @@ impl MacroquadRenderer {
         }
     }
 
+    /// Turns an engine [`Hit`] into a draw-ready column for macroquad.
+    ///
+    /// Bridges the engine's `glam` types to macroquad's own vector/rect types.
+    ///
+    /// # Parameters
+    /// - `hit`: the ray hit to project.
+    /// - `screen`: render target size, in pixels.
+    /// - `scale`: wall height scaling factor.
+    /// - `texture_size`: wall texture size, in pixels.
+    ///
+    /// # Returns
+    /// A [`RayColumn`] describing the destination rect and texture source rect.
     fn build_column_from_hit(
         &self,
         hit: &Hit,
@@ -84,6 +104,10 @@ impl MacroquadRenderer {
         }
     }
 
+    /// Draws a single wall column with its texture slice.
+    ///
+    /// # Parameters
+    /// - `column`: the column geometry and texture source to render.
     fn draw_column(&self, column: &RayColumn) {
         draw_texture_ex(
             &self.wall_texture,
@@ -98,11 +122,24 @@ impl MacroquadRenderer {
         );
     }
 
+    /// Fills the background with a sky half and a ground half.
+    ///
+    /// # Parameters
+    /// - `screen`: render target size, in pixels.
+    /// - `sky_color`: color of the top half.
+    /// - `ground_color`: color of the bottom half.
     fn draw_sky_and_ground(&self, screen: Vec2, sky_color: Color, ground_color: Color) {
         draw_rectangle(0.0, 0.0, screen.x, screen.y / 2.0, sky_color);
         draw_rectangle(0.0, screen.y / 2.0, screen.x, screen.y / 2.0, ground_color);
     }
 
+    /// Renders a full frame: background, then every wall column.
+    ///
+    /// # Parameters
+    /// - `cast`: the [`Scanline`] produced by [`Engine::cast_ray`].
+    /// - `screen`: render target dimensions.
+    /// - `sky_color`: background color of the upper half.
+    /// - `ground_color`: background color of the lower half.
     fn draw_scene(
         &self,
         cast: &raycoon::engine::Scanline,
@@ -122,6 +159,10 @@ impl MacroquadRenderer {
     }
 }
 
+/// Entry point: sets up the engine and runs the render/update game loop.
+///
+/// Each frame reads the keyboard, updates the player, casts the scene and
+/// draws it, until the window is closed.
 #[macroquad::main(conf)]
 async fn main() {
     let player = Player {
@@ -160,6 +201,10 @@ async fn main() {
     }
 }
 
+/// Builds the demo [`Map`] from the hard-coded `MAP` layout.
+///
+/// # Returns
+/// A [`Map`] where tile id `1` is marked as blocking.
 fn create_map() -> Map {
     let mut blocking_tile = HashSet::new();
     blocking_tile.insert(1);
@@ -177,6 +222,10 @@ fn create_map() -> Map {
     }
 }
 
+/// Provides the macroquad window configuration for the demo.
+///
+/// # Returns
+/// A [`Conf`] sized to `SCREEN` with a fixed, non-resizable window.
 fn conf() -> Conf {
     Conf {
         window_title: "Raycoon Basic Demo".into(),
