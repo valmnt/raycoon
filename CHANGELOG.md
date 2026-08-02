@@ -1,9 +1,9 @@
 # Changelog
 
-## 0.0.4 - 2025-11-30
-- Removed the Python wrapper/bindings and now validate the C ABI through Rust integration tests.
-- Reorganized engine and FFI modules (columns/raycast split, map constructors) to align the ABI surface with engine structure and safer ownership transfer.
-- Hardened the basic example’s texture loading by resolving the wall texture via `CARGO_MANIFEST_DIR` to avoid relative-path failures.
+## 0.0.5 - 2026-08-02
+- Removed the FFI layer and related integration tests.
+- Cleaned up `Cargo.toml` and README to reflect native Rust-only crate usage.
+- Preserved the engine's backend-agnostic architecture while simplifying the public API.
 
 ## 0.0.3 - 2025-11-29
 - Added backend-agnostic player input abstraction so engine APIs stay decoupled from specific libraries (#5).
