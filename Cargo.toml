@@ -23,7 +23,7 @@ exclude = [
 [lib]
 name = "raycoon"
 path = "src/lib.rs"
-crate-type = ["rlib", "cdylib"]
+crate-type = ["rlib"]
 
 [dependencies]
 glam = "0.30.9"

@@ -34,17 +34,8 @@ It focuses on clarity, simplicity, and clean architecture: the core provides pur
 - Tile-based world with configurable blocking tiles  
 - Per-axis collision handling  
 - Strict separation between **engine** and **renderer**  
-- Simple C-compatible FFI API for easy bindings
+- Native Rust engine implementation
 - Lightweight, hackable, and easy to understand
-
-## 🧩 Engine Language Support
-
-Raycoon’s core is written in **Rust**, with an official **FFI binding** available.
-
-| Language | Support | Details |
-|---------|---------|---------|
-| ![Rust](https://img.shields.io/badge/Rust-%23000000.svg?style=for-the-badge&logo=rust&logoColor=orange) | ✔️ | Native engine implementation |
-| ![C](https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white) | ⚠️ | FFI-compatible (no official binding) |
 
 ## 📦 Installation
 Add the crate to your project :
